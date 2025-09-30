@@ -56,47 +56,41 @@ export function KanbanColumn({ stage, boardId }: KanbanColumnProps) {
 
   return (
     <>
-      <div ref={setNodeRef} className="flex-shrink-0 w-[320px]">
-        <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
+      <div ref={setNodeRef} className="flex-shrink-0 w-full sm:w-[280px] md:w-[320px]">
+        <div className="rounded-lg border border-border bg-card p-3 md:p-4">
           <div className="mb-4 flex items-center justify-between">
             <div className="flex items-center gap-2">
               {stage.color && <div className="h-3 w-3 rounded-full" style={{ backgroundColor: stage.color }} />}
-              <h3 className="font-semibold text-slate-900">{stage.name}</h3>
-              <Badge variant="secondary" className="bg-slate-200 text-slate-700">
-                {stage.cards.length}
-              </Badge>
+              <h3 className="font-semibold text-card-foreground text-sm md:text-base">{stage.name}</h3>
+              <Badge variant="secondary">{stage.cards.length}</Badge>
             </div>
             <div className="flex gap-1">
               <Button
                 variant="ghost"
                 size="icon"
-                className="h-8 w-8 text-slate-600 hover:text-slate-900"
+                className="h-7 w-7 md:h-8 md:w-8"
                 onClick={() => setIsEditStageOpen(true)}
               >
-                <Edit2 className="h-4 w-4" />
+                <Edit2 className="h-3 w-3 md:h-4 md:w-4" />
               </Button>
               <Button
                 variant="ghost"
                 size="icon"
-                className="h-8 w-8 text-red-600 hover:text-red-700 hover:bg-red-50"
+                className="h-7 w-7 md:h-8 md:w-8 text-destructive hover:bg-destructive/10"
                 onClick={handleDeleteStage}
               >
-                <Trash2 className="h-4 w-4" />
+                <Trash2 className="h-3 w-3 md:h-4 md:w-4" />
               </Button>
             </div>
           </div>
 
-          <div className="space-y-3 min-h-[400px]">
+          <div className="space-y-3 min-h-[300px] md:min-h-[400px]">
             {stage.cards.map((card) => (
               <KanbanCard key={card.id} card={card} />
             ))}
           </div>
 
-          <Button
-            variant="outline"
-            className="mt-3 w-full border-slate-300 hover:bg-white bg-transparent"
-            onClick={() => setIsCreateCardOpen(true)}
-          >
+          <Button variant="outline" className="mt-3 w-full bg-transparent" onClick={() => setIsCreateCardOpen(true)}>
             <Plus className="mr-2 h-4 w-4" />
             Add Card
           </Button>

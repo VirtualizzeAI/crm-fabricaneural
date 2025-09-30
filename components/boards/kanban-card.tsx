@@ -25,11 +25,13 @@ interface KanbanCardProps {
 }
 
 const statusColors: { [key: string]: string } = {
-  new: "bg-purple-100 text-purple-800 border-purple-200",
-  contacted: "bg-orange-100 text-orange-800 border-orange-200",
-  qualified: "bg-cyan-100 text-cyan-800 border-cyan-200",
-  converted: "bg-green-100 text-green-800 border-green-200",
-  lost: "bg-red-100 text-red-800 border-red-200",
+  new: "bg-purple-100 text-purple-800 border-purple-200 dark:bg-purple-900/30 dark:text-purple-300 dark:border-purple-800",
+  contacted:
+    "bg-orange-100 text-orange-800 border-orange-200 dark:bg-orange-900/30 dark:text-orange-300 dark:border-orange-800",
+  qualified: "bg-cyan-100 text-cyan-800 border-cyan-200 dark:bg-cyan-900/30 dark:text-cyan-300 dark:border-cyan-800",
+  converted:
+    "bg-green-100 text-green-800 border-green-200 dark:bg-green-900/30 dark:text-green-300 dark:border-green-800",
+  lost: "bg-red-100 text-red-800 border-red-200 dark:bg-red-900/30 dark:text-red-300 dark:border-red-800",
 }
 
 export function KanbanCard({ card }: KanbanCardProps) {
@@ -74,52 +76,52 @@ export function KanbanCard({ card }: KanbanCardProps) {
         style={style}
         {...listeners}
         {...attributes}
-        className="cursor-grab active:cursor-grabbing border-slate-200 bg-white hover:shadow-md transition-shadow group"
+        className="cursor-grab active:cursor-grabbing border-border bg-card hover:shadow-md transition-shadow group"
       >
-        <CardHeader className="pb-3">
+        <CardHeader className="pb-3 p-3 md:p-4">
           <div className="flex items-start justify-between gap-2">
-            <CardTitle className="text-sm font-semibold text-slate-900 line-clamp-2">{card.title}</CardTitle>
+            <CardTitle className="text-xs md:text-sm font-semibold text-card-foreground line-clamp-2">
+              {card.title}
+            </CardTitle>
             <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-6 w-6 text-slate-600 hover:text-slate-900"
-                onClick={handleEdit}
-              >
+              <Button variant="ghost" size="icon" className="h-6 w-6" onClick={handleEdit}>
                 <Edit2 className="h-3 w-3" />
               </Button>
               <Button
                 variant="ghost"
                 size="icon"
-                className="h-6 w-6 text-red-600 hover:text-red-700 hover:bg-red-50"
+                className="h-6 w-6 text-destructive hover:bg-destructive/10"
                 onClick={handleDelete}
               >
                 <Trash2 className="h-3 w-3" />
               </Button>
             </div>
           </div>
-          {card.description && <p className="text-xs text-slate-600 line-clamp-2 mt-1">{card.description}</p>}
+          {card.description && <p className="text-xs text-muted-foreground line-clamp-2 mt-1">{card.description}</p>}
         </CardHeader>
-        <CardContent className="space-y-2">
+        <CardContent className="space-y-2 p-3 md:p-4 pt-0">
           {card.email && (
-            <div className="flex items-center gap-2 text-xs text-slate-600">
-              <Mail className="h-3 w-3" />
+            <div className="flex items-center gap-2 text-xs text-muted-foreground">
+              <Mail className="h-3 w-3 flex-shrink-0" />
               <span className="truncate">{card.email}</span>
             </div>
           )}
           {card.phone && (
-            <div className="flex items-center gap-2 text-xs text-slate-600">
-              <Phone className="h-3 w-3" />
+            <div className="flex items-center gap-2 text-xs text-muted-foreground">
+              <Phone className="h-3 w-3 flex-shrink-0" />
               <span>{card.phone}</span>
             </div>
           )}
-          <div className="flex items-center justify-between pt-2">
+          <div className="flex items-center justify-between pt-2 flex-wrap gap-2">
             <Badge variant="outline" className={`text-xs ${statusColors[card.status] || ""}`}>
               {card.status}
             </Badge>
-            <div className="flex items-center gap-1 text-xs text-slate-500">
+            <div className="flex items-center gap-1 text-xs text-muted-foreground">
               <Calendar className="h-3 w-3" />
-              {new Date(card.created_at).toLocaleDateString()}
+              <span className="hidden sm:inline">{new Date(card.created_at).toLocaleDateString()}</span>
+              <span className="sm:hidden">
+                {new Date(card.created_at).toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit" })}
+              </span>
             </div>
           </div>
         </CardContent>
