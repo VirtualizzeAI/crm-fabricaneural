@@ -27,13 +27,13 @@ export default function SignUpPage() {
     setError(null)
 
     if (password !== repeatPassword) {
-      setError("Passwords do not match")
+      setError("As senhas não correspondem")
       setIsLoading(false)
       return
     }
 
     if (password.length < 6) {
-      setError("Password must be at least 6 characters")
+      setError("A senha deve ter pelo menos 6 caracteres")
       setIsLoading(false)
       return
     }
@@ -53,7 +53,7 @@ export default function SignUpPage() {
       if (error) throw error
       router.push("/auth/sign-up-success")
     } catch (error: unknown) {
-      setError(error instanceof Error ? error.message : "An error occurred")
+      setError(error instanceof Error ? error.message : "Ocorreu um erro")
     } finally {
       setIsLoading(false)
     }
@@ -63,25 +63,25 @@ export default function SignUpPage() {
     <div className="flex min-h-screen w-full items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 p-6">
       <div className="w-full max-w-md">
         <div className="mb-8 text-center">
-          <h1 className="text-3xl font-bold tracking-tight text-slate-900">Kanban CRM</h1>
-          <p className="mt-2 text-sm text-slate-600">Professional lead management system</p>
+          <h1 className="text-3xl font-bold tracking-tight text-slate-900">Fábrica Neural CRM</h1>
+          <p className="mt-2 text-sm text-slate-600">Sistema profissional de gerenciamento de leads</p>
         </div>
         <Card className="border-slate-200 shadow-xl">
           <CardHeader className="space-y-1">
-            <CardTitle className="text-2xl font-semibold">Create account</CardTitle>
-            <CardDescription className="text-slate-600">Enter your information to get started</CardDescription>
+            <CardTitle className="text-2xl font-semibold">Criar uma conta</CardTitle>
+            <CardDescription className="text-slate-600">Insira suas informações para começar</CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSignUp}>
               <div className="flex flex-col gap-4">
                 <div className="grid gap-2">
                   <Label htmlFor="fullName" className="text-slate-700">
-                    Full Name
+                    Nome completo
                   </Label>
                   <Input
                     id="fullName"
                     type="text"
-                    placeholder="John Doe"
+                    placeholder="João Silva"
                     required
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
@@ -95,7 +95,7 @@ export default function SignUpPage() {
                   <Input
                     id="email"
                     type="email"
-                    placeholder="name@company.com"
+                    placeholder="nome@email.com"
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
@@ -104,7 +104,7 @@ export default function SignUpPage() {
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="password" className="text-slate-700">
-                    Password
+                    Senha
                   </Label>
                   <Input
                     id="password"
@@ -117,7 +117,7 @@ export default function SignUpPage() {
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="repeat-password" className="text-slate-700">
-                    Confirm Password
+                    Confirmar senha
                   </Label>
                   <Input
                     id="repeat-password"
@@ -132,16 +132,16 @@ export default function SignUpPage() {
                   <div className="rounded-md bg-red-50 p-3 text-sm text-red-800 border border-red-200">{error}</div>
                 )}
                 <Button type="submit" className="w-full bg-slate-900 hover:bg-slate-800" disabled={isLoading}>
-                  {isLoading ? "Creating account..." : "Create account"}
+                  {isLoading ? "Criando conta..." : "Criar conta"}
                 </Button>
               </div>
               <div className="mt-4 text-center text-sm text-slate-600">
-                Already have an account?{" "}
+                Já tem uma conta?{" "}
                 <Link
                   href="/auth/login"
                   className="font-medium text-slate-900 underline underline-offset-4 hover:text-slate-700"
                 >
-                  Sign in
+                  Entrar
                 </Link>
               </div>
             </form>

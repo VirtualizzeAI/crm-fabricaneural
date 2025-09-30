@@ -43,13 +43,13 @@ export default function LoginPage() {
     <div className="flex min-h-screen w-full items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 p-6">
       <div className="w-full max-w-md">
         <div className="mb-8 text-center">
-          <h1 className="text-3xl font-bold tracking-tight text-slate-900">Kanban CRM</h1>
-          <p className="mt-2 text-sm text-slate-600">Professional lead management system</p>
+          <h1 className="text-3xl font-bold tracking-tight text-slate-900">Fábrica Neural CRM</h1>
+          <p className="mt-2 text-sm text-slate-600">Sistema profissional de gerenciamento de leads</p>
         </div>
         <Card className="border-slate-200 shadow-xl">
           <CardHeader className="space-y-1">
-            <CardTitle className="text-2xl font-semibold">Sign in</CardTitle>
-            <CardDescription className="text-slate-600">Enter your credentials to access your account</CardDescription>
+            <CardTitle className="text-2xl font-semibold">Entrar</CardTitle>
+            <CardDescription className="text-slate-600">Insira suas credenciais para acessar sua conta</CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleLogin}>
@@ -61,7 +61,7 @@ export default function LoginPage() {
                   <Input
                     id="email"
                     type="email"
-                    placeholder="name@company.com"
+                    placeholder="nome@email.com"
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
@@ -70,7 +70,7 @@ export default function LoginPage() {
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="password" className="text-slate-700">
-                    Password
+                    Senha
                   </Label>
                   <Input
                     id="password"
@@ -85,11 +85,11 @@ export default function LoginPage() {
                   <div className="rounded-md bg-red-50 p-3 text-sm text-red-800 border border-red-200">{error}</div>
                 )}
                 <Button type="submit" className="w-full bg-slate-900 hover:bg-slate-800" disabled={isLoading}>
-                  {isLoading ? "Signing in..." : "Sign in"}
+                  {isLoading ? "Fazendo login..." : "Entrar"}
                 </Button>
               </div>
               <div className="mt-4 text-center text-sm text-slate-600">
-                Don&apos;t have an account?{" "}
+                Não tem uma conta?{" "}
                 <Link
                   href="/auth/sign-up"
                   className="font-medium text-slate-900 underline underline-offset-4 hover:text-slate-700"
