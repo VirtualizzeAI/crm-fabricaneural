@@ -94,7 +94,7 @@ export default function LoginPage() {
                   href="/auth/sign-up"
                   className="font-medium text-slate-900 underline underline-offset-4 hover:text-slate-700"
                 >
-                  Sign up
+                  Criar conta
                 </Link>
               </div>
             </form>

@@ -38,7 +38,7 @@ export function DashboardClient({ initialStats, initialLeads, userRole, userName
       <div className="flex h-screen">
         <Sidebar userRole={userRole} />
         <div className="flex-1 p-8">
-          <p className="text-slate-600">Loading dashboard...</p>
+          <p className="text-slate-600">Carregando painel...</p>
         </div>
       </div>
     )
@@ -51,8 +51,8 @@ export function DashboardClient({ initialStats, initialLeads, userRole, userName
         <div className="border-b border-slate-200 bg-white px-8 py-6">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-slate-900">Dashboard</h1>
-              <p className="mt-1 text-sm text-slate-600">Welcome back, {userName}</p>
+              <h1 className="text-3xl font-bold text-slate-900">Painel</h1>
+              <p className="mt-1 text-sm text-slate-600">Bem-vindo de volta, {userName}</p>
             </div>
             <DateRangeSelector onRangeChange={handleRangeChange} selectedDays={selectedDays} />
           </div>

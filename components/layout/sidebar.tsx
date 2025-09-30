@@ -18,13 +18,13 @@ export function Sidebar({ userRole }: SidebarProps) {
 
   const navigation = [
     {
-      name: "Dashboard",
+      name: "Painel",
       href: "/dashboard",
       icon: LayoutDashboard,
       roles: ["user", "admin", "super_admin"],
     },
     {
-      name: "Kanban Boards",
+      name: "Quadros Kanban",
       href: "/boards",
       icon: Kanban,
       roles: ["user", "admin", "super_admin"],
@@ -77,7 +77,7 @@ export function Sidebar({ userRole }: SidebarProps) {
           onClick={handleSignOut}
         >
           <LogOut className="mr-2 h-5 w-5" />
-          Sign out
+          Sair
         </Button>
       </div>
     </div>

@@ -12,16 +12,16 @@ export default function SignUpSuccessPage() {
             <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
               <CheckCircle2 className="h-8 w-8 text-green-600" />
             </div>
-            <CardTitle className="text-2xl font-semibold">Check your email</CardTitle>
-            <CardDescription className="text-slate-600">We&apos;ve sent you a confirmation link</CardDescription>
+            <CardTitle className="text-2xl font-semibold">Verifique seu e-mail</CardTitle>
+            <CardDescription className="text-slate-600">Enviamos um link de confirmação para você</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <p className="text-center text-sm text-slate-600">
-              Please check your email and click the confirmation link to activate your account. Once confirmed, you can
-              sign in to access your dashboard.
+              Por favor, verifique seu e-mail e clique no link de confirmação para ativar sua conta. Após a confirmação,
+              você poderá fazer login e acessar seu painel.
             </p>
             <Button asChild className="w-full bg-slate-900 hover:bg-slate-800">
-              <Link href="/auth/login">Return to sign in</Link>
+              <Link href="/auth/login">Voltar para o login</Link>
             </Button>
           </CardContent>
         </Card>

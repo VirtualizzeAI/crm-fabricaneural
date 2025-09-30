@@ -27,8 +27,8 @@ export default async function BoardsPage() {
       <Sidebar userRole={profile.role} />
       <div className="flex-1 overflow-auto">
         <div className="border-b border-slate-200 bg-white px-8 py-6">
-          <h1 className="text-3xl font-bold text-slate-900">Kanban Boards</h1>
-          <p className="mt-1 text-sm text-slate-600">Manage your sales pipeline with visual boards</p>
+          <h1 className="text-3xl font-bold text-slate-900">Quadros Kanban</h1>
+          <p className="mt-1 text-sm text-slate-600">Gerencie seu funil de vendas com quadros visuais</p>
         </div>
         <div className="p-8">
           <BoardList boards={boards} />

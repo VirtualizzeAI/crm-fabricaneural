@@ -16,42 +16,42 @@ interface StatsCardsProps {
 export function StatsCards({ stats }: StatsCardsProps) {
   const cards = [
     {
-      title: "Total Leads",
+      title: "Total de Leads",
       value: stats.totalLeads,
       icon: Users,
       color: "text-blue-600",
       bgColor: "bg-blue-50",
     },
     {
-      title: "New Leads",
+      title: "Novos Leads",
       value: stats.newLeads,
       icon: Target,
       color: "text-purple-600",
       bgColor: "bg-purple-50",
     },
     {
-      title: "Contacted",
+      title: "Contatados",
       value: stats.contactedLeads,
       icon: Phone,
       color: "text-orange-600",
       bgColor: "bg-orange-50",
     },
     {
-      title: "Qualified",
+      title: "Qualificados",
       value: stats.qualifiedLeads,
       icon: TrendingUp,
       color: "text-cyan-600",
       bgColor: "bg-cyan-50",
     },
     {
-      title: "Converted",
+      title: "Convertidos",
       value: stats.convertedLeads,
       icon: CheckCircle2,
       color: "text-green-600",
       bgColor: "bg-green-50",
     },
     {
-      title: "Conversion Rate",
+      title: "Taxa de Conversão",
       value: `${stats.conversionRate.toFixed(1)}%`,
       icon: TrendingUp,
       color: "text-emerald-600",

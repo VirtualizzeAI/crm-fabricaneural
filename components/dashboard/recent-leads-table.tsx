@@ -26,25 +26,25 @@ export function RecentLeadsTable({ leads }: RecentLeadsTableProps) {
   return (
     <Card className="border-slate-200">
       <CardHeader>
-        <CardTitle className="text-slate-900">Recent Leads</CardTitle>
-        <CardDescription className="text-slate-600">Latest leads added to your pipeline</CardDescription>
+        <CardTitle className="text-slate-900">Leads Recentes</CardTitle>
+        <CardDescription className="text-slate-600">Últimos leads adicionados ao seu funil</CardDescription>
       </CardHeader>
       <CardContent>
         <Table>
           <TableHeader>
             <TableRow className="border-slate-200">
-              <TableHead className="text-slate-700">Title</TableHead>
-              <TableHead className="text-slate-700">Contact</TableHead>
-              <TableHead className="text-slate-700">Stage</TableHead>
+              <TableHead className="text-slate-700">Título</TableHead>
+              <TableHead className="text-slate-700">Contato</TableHead>
+              <TableHead className="text-slate-700">Etapa</TableHead>
               <TableHead className="text-slate-700">Status</TableHead>
-              <TableHead className="text-slate-700">Created</TableHead>
+              <TableHead className="text-slate-700">Criado</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {leads.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={5} className="text-center text-slate-500">
-                  No leads found
+                  Nenhum lead encontrado
                 </TableCell>
               </TableRow>
             ) : (
@@ -63,7 +63,9 @@ export function RecentLeadsTable({ leads }: RecentLeadsTableProps) {
                       {lead.status}
                     </Badge>
                   </TableCell>
-                  <TableCell className="text-slate-600">{new Date(lead.created_at).toLocaleDateString()}</TableCell>
+                  <TableCell className="text-slate-600">
+                    {new Date(lead.created_at).toLocaleDateString("pt-BR")}
+                  </TableCell>
                 </TableRow>
               ))
             )}
