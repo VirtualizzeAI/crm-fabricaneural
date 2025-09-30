@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
-import { LayoutDashboard, Kanban, LogOut, Building2 } from "lucide-react"
+import { LayoutDashboard, Kanban, LogOut, Building2, User } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { createClient } from "@/lib/supabase/client"
 import { useRouter } from "next/navigation"
@@ -30,6 +30,12 @@ export function Sidebar({ userRole }: SidebarProps) {
       roles: ["user", "admin", "super_admin"],
     },
     {
+      name: "Perfil",
+      href: "/profile",
+      icon: User,
+      roles: ["user", "admin", "super_admin"],
+    },
+    {
       name: "Super Admin",
       href: "/super-admin",
       icon: Building2,
@@ -49,7 +55,7 @@ export function Sidebar({ userRole }: SidebarProps) {
   return (
     <div className="flex h-full w-64 flex-col border-r border-slate-200 bg-white">
       <div className="flex h-16 items-center border-b border-slate-200 px-6">
-        <h1 className="text-xl font-bold text-slate-900">Kanban CRM</h1>
+        <h1 className="text-xl font-bold text-slate-900">Hub Fábrica Neural</h1>
       </div>
       <nav className="flex-1 space-y-1 px-3 py-4">
         {filteredNavigation.map((item) => {

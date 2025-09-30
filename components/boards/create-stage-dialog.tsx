@@ -24,14 +24,14 @@ interface CreateStageDialogProps {
 }
 
 const colorOptions = [
-  { name: "Purple", value: "#a855f7" },
-  { name: "Orange", value: "#f97316" },
-  { name: "Cyan", value: "#06b6d4" },
-  { name: "Green", value: "#22c55e" },
-  { name: "Red", value: "#ef4444" },
-  { name: "Blue", value: "#3b82f6" },
-  { name: "Pink", value: "#ec4899" },
-  { name: "Yellow", value: "#eab308" },
+  { name: "Roxo", value: "#a855f7" },
+  { name: "Laranja", value: "#f97316" },
+  { name: "Ciano", value: "#06b6d4" },
+  { name: "Verde", value: "#22c55e" },
+  { name: "Vermelho", value: "#ef4444" },
+  { name: "Azul", value: "#3b82f6" },
+  { name: "Rosa", value: "#ec4899" },
+  { name: "Amarelo", value: "#eab308" },
 ]
 
 export function CreateStageDialog({ boardId, open, onOpenChange }: CreateStageDialogProps) {
@@ -63,22 +63,22 @@ export function CreateStageDialog({ boardId, open, onOpenChange }: CreateStageDi
       <DialogContent className="sm:max-w-[425px]">
         <form onSubmit={handleSubmit}>
           <DialogHeader>
-            <DialogTitle>Create New Stage</DialogTitle>
-            <DialogDescription>Add a new column to your Kanban board</DialogDescription>
+            <DialogTitle>Criar Nova Etapa</DialogTitle>
+            <DialogDescription>Adicione uma nova coluna ao seu quadro Kanban</DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
             <div className="grid gap-2">
-              <Label htmlFor="name">Stage Name</Label>
+              <Label htmlFor="name">Nome da Etapa</Label>
               <Input
                 id="name"
-                placeholder="e.g., In Progress"
+                placeholder="ex: Em Progresso"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
               />
             </div>
             <div className="grid gap-2">
-              <Label>Color</Label>
+              <Label>Cor</Label>
               <div className="grid grid-cols-4 gap-2">
                 {colorOptions.map((option) => (
                   <button
@@ -97,10 +97,10 @@ export function CreateStageDialog({ boardId, open, onOpenChange }: CreateStageDi
           </div>
           <DialogFooter>
             <Button type="button" variant="outline" onClick={() => onOpenChange(false)} disabled={isLoading}>
-              Cancel
+              Cancelar
             </Button>
             <Button type="submit" disabled={isLoading} className="bg-slate-900 hover:bg-slate-800">
-              {isLoading ? "Creating..." : "Create Stage"}
+              {isLoading ? "Criando..." : "Criar Etapa"}
             </Button>
           </DialogFooter>
         </form>

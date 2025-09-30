@@ -61,25 +61,25 @@ export function CreateCardDialog({ boardId, stageId, open, onOpenChange }: Creat
       <DialogContent className="sm:max-w-[500px]">
         <form onSubmit={handleSubmit}>
           <DialogHeader>
-            <DialogTitle>Create New Lead</DialogTitle>
-            <DialogDescription>Add a new lead card to this stage</DialogDescription>
+            <DialogTitle>Criar Novo Lead</DialogTitle>
+            <DialogDescription>Adicione um novo card de lead a esta etapa</DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
             <div className="grid gap-2">
-              <Label htmlFor="title">Title *</Label>
+              <Label htmlFor="title">Título *</Label>
               <Input
                 id="title"
-                placeholder="Lead name or company"
+                placeholder="Nome do lead ou empresa"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 required
               />
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="description">Description</Label>
+              <Label htmlFor="description">Descrição</Label>
               <Textarea
                 id="description"
-                placeholder="Additional notes..."
+                placeholder="Notas adicionais..."
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 rows={3}
@@ -91,17 +91,17 @@ export function CreateCardDialog({ boardId, stageId, open, onOpenChange }: Creat
                 <Input
                   id="email"
                   type="email"
-                  placeholder="email@example.com"
+                  placeholder="email@exemplo.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="phone">Phone</Label>
+                <Label htmlFor="phone">Telefone</Label>
                 <Input
                   id="phone"
                   type="tel"
-                  placeholder="+1 (555) 000-0000"
+                  placeholder="11 91234 5678"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                 />
@@ -114,21 +114,21 @@ export function CreateCardDialog({ boardId, stageId, open, onOpenChange }: Creat
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="new">New</SelectItem>
-                  <SelectItem value="contacted">Contacted</SelectItem>
-                  <SelectItem value="qualified">Qualified</SelectItem>
-                  <SelectItem value="converted">Converted</SelectItem>
-                  <SelectItem value="lost">Lost</SelectItem>
+                  <SelectItem value="new">Novo</SelectItem>
+                  <SelectItem value="contacted">Contatado</SelectItem>
+                  <SelectItem value="qualified">Qualificado</SelectItem>
+                  <SelectItem value="converted">Convertido</SelectItem>
+                  <SelectItem value="lost">Perdido</SelectItem>
                 </SelectContent>
               </Select>
             </div>
           </div>
           <DialogFooter>
             <Button type="button" variant="outline" onClick={() => onOpenChange(false)} disabled={isLoading}>
-              Cancel
+              Cancelar
             </Button>
             <Button type="submit" disabled={isLoading} className="bg-slate-900 hover:bg-slate-800">
-              {isLoading ? "Creating..." : "Create Lead"}
+              {isLoading ? "Criando..." : "Criar Lead"}
             </Button>
           </DialogFooter>
         </form>
