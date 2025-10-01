@@ -61,7 +61,6 @@ export interface Card {
   position: number
   phone: string | null
   email: string | null
-  status: "new" | "contacted" | "qualified" | "converted" | "lost"
   created_by: string
   created_at: string
   updated_at: string
@@ -76,5 +75,45 @@ export interface DashboardStats {
   lostLeads: number
   conversionRate: number
   leadsOverTime: Array<{ date: string; count: number }>
-  leadsByStatus: Array<{ status: string; count: number }>
+  leadsByTags: Array<{ tag: string; count: number }>
+}
+
+export interface Tag {
+  id: string
+  name: string
+  color: string
+  client_id: string
+  created_at: string
+  updated_at: string
+}
+
+export interface Contact {
+  id: string
+  name: string
+  phone: string
+  email: string | null
+  client_id: string
+  created_by: string
+  created_at: string
+  updated_at: string
+  tags?: Tag[]
+  custom_values?: ContactCustomValue[]
+}
+
+export interface CustomField {
+  id: string
+  name: string
+  field_type: "text" | "number" | "date" | "email" | "phone" | "url" | "textarea"
+  client_id: string
+  created_at: string
+}
+
+export interface ContactCustomValue {
+  id: string
+  contact_id: string
+  custom_field_id: string
+  value: string | null
+  custom_field?: CustomField
+  created_at: string
+  updated_at: string
 }
