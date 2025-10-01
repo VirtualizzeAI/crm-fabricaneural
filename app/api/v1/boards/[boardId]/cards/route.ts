@@ -22,6 +22,53 @@ async function validateApiKey(apiKey: string) {
   return apiKeyData
 }
 
+export async function GET(request: NextRequest, { params }: { params: Promise<{ boardId: string }> }) {
+  try {
+    const { boardId } = await params
+    const authHeader = request.headers.get("authorization")
+
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return NextResponse.json({ error: "API key não fornecida" }, { status: 401 })
+    }
+
+    const apiKey = authHeader.substring(7)
+    const apiKeyData = await validateApiKey(apiKey)
+
+    if (!apiKeyData) {
+      return NextResponse.json({ error: "API key inválida" }, { status: 401 })
+    }
+
+    const supabase = await createClient()
+
+    // Verify board belongs to client
+    const { data: board } = await supabase
+      .from("boards")
+      .select("*")
+      .eq("id", boardId)
+      .eq("client_id", apiKeyData.client_id)
+      .single()
+
+    if (!board) {
+      return NextResponse.json({ error: "Quadro não encontrado" }, { status: 404 })
+    }
+
+    // Get all cards for the board
+    const { data: cards, error } = await supabase
+      .from("cards")
+      .select("*, stages(name, color)")
+      .eq("board_id", boardId)
+      .order("created_at", { ascending: false })
+
+    if (error) {
+      return NextResponse.json({ error: "Erro ao buscar cards" }, { status: 500 })
+    }
+
+    return NextResponse.json({ cards })
+  } catch (error) {
+    return NextResponse.json({ error: "Erro interno do servidor" }, { status: 500 })
+  }
+}
+
 export async function POST(request: NextRequest, { params }: { params: Promise<{ boardId: string }> }) {
   try {
     const { boardId } = await params

@@ -53,3 +53,63 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: "Erro interno do servidor" }, { status: 500 })
   }
 }
+
+export async function POST(request: NextRequest) {
+  try {
+    const authHeader = request.headers.get("authorization")
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return NextResponse.json({ error: "API key não fornecida" }, { status: 401 })
+    }
+
+    const apiKey = authHeader.substring(7)
+    const apiKeyData = await validateApiKey(apiKey)
+
+    if (!apiKeyData) {
+      return NextResponse.json({ error: "API key inválida" }, { status: 401 })
+    }
+
+    const body = await request.json()
+    const { name, description } = body
+
+    if (!name) {
+      return NextResponse.json({ error: "Nome do quadro é obrigatório" }, { status: 400 })
+    }
+
+    const supabase = await createClient()
+
+    // Create board
+    const { data: board, error: boardError } = await supabase
+      .from("boards")
+      .insert({
+        name,
+        description: description || null,
+        client_id: apiKeyData.client_id,
+        created_by: apiKeyData.created_by,
+      })
+      .select()
+      .single()
+
+    if (boardError) {
+      return NextResponse.json({ error: "Erro ao criar quadro" }, { status: 500 })
+    }
+
+    // Create default stages
+    const defaultStages = [
+      { name: "New", position: 0, color: "#a855f7" },
+      { name: "Contacted", position: 1, color: "#f97316" },
+      { name: "Qualified", position: 2, color: "#06b6d4" },
+      { name: "Converted", position: 3, color: "#22c55e" },
+    ]
+
+    await supabase.from("stages").insert(
+      defaultStages.map((stage) => ({
+        ...stage,
+        board_id: board.id,
+      })),
+    )
+
+    return NextResponse.json({ board }, { status: 201 })
+  } catch (error) {
+    return NextResponse.json({ error: "Erro interno do servidor" }, { status: 500 })
+  }
+}

@@ -22,6 +22,43 @@ async function validateApiKey(apiKey: string) {
   return apiKeyData
 }
 
+export async function GET(request: NextRequest, { params }: { params: Promise<{ boardId: string; cardId: string }> }) {
+  try {
+    const { boardId, cardId } = await params
+    const authHeader = request.headers.get("authorization")
+
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return NextResponse.json({ error: "API key não fornecida" }, { status: 401 })
+    }
+
+    const apiKey = authHeader.substring(7)
+    const apiKeyData = await validateApiKey(apiKey)
+
+    if (!apiKeyData) {
+      return NextResponse.json({ error: "API key inválida" }, { status: 401 })
+    }
+
+    const supabase = await createClient()
+
+    // Verify card belongs to board and client
+    const { data: card, error } = await supabase
+      .from("cards")
+      .select("*, boards!inner(client_id), stages(name, color)")
+      .eq("id", cardId)
+      .eq("board_id", boardId)
+      .eq("boards.client_id", apiKeyData.client_id)
+      .single()
+
+    if (error || !card) {
+      return NextResponse.json({ error: "Card não encontrado" }, { status: 404 })
+    }
+
+    return NextResponse.json({ card })
+  } catch (error) {
+    return NextResponse.json({ error: "Erro interno do servidor" }, { status: 500 })
+  }
+}
+
 export async function PATCH(
   request: NextRequest,
   { params }: { params: Promise<{ boardId: string; cardId: string }> },
@@ -42,22 +79,29 @@ export async function PATCH(
     }
 
     const body = await request.json()
-    const { title, description, email, phone, stageId } = body
+    const { title, description, email, phone, stageId, status } = body
 
     const supabase = await createClient()
 
     // Verify card belongs to board and client
-    const { data: card } = await supabase.from("cards").select("*, boards(client_id)").eq("id", cardId).single()
+    const { data: card } = await supabase
+      .from("cards")
+      .select("*, boards!inner(client_id)")
+      .eq("id", cardId)
+      .eq("board_id", boardId)
+      .eq("boards.client_id", apiKeyData.client_id)
+      .single()
 
-    if (!card || card.boards?.client_id !== apiKeyData.client_id) {
+    if (!card) {
       return NextResponse.json({ error: "Card não encontrado" }, { status: 404 })
     }
 
-    const updates: any = { updated_at: new Date().toISOString() }
+    const updates: any = {}
     if (title !== undefined) updates.title = title
     if (description !== undefined) updates.description = description
     if (email !== undefined) updates.email = email
     if (phone !== undefined) updates.phone = phone
+    if (status !== undefined) updates.status = status
     if (stageId !== undefined) {
       // Verify stage exists and belongs to board
       const { data: stage } = await supabase
@@ -90,7 +134,7 @@ export async function DELETE(
   { params }: { params: Promise<{ boardId: string; cardId: string }> },
 ) {
   try {
-    const { cardId } = await params
+    const { boardId, cardId } = await params
     const authHeader = request.headers.get("authorization")
 
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
@@ -106,10 +150,16 @@ export async function DELETE(
 
     const supabase = await createClient()
 
-    // Verify card belongs to client
-    const { data: card } = await supabase.from("cards").select("*, boards(client_id)").eq("id", cardId).single()
+    // Verify card belongs to board and client
+    const { data: card } = await supabase
+      .from("cards")
+      .select("*, boards!inner(client_id)")
+      .eq("id", cardId)
+      .eq("board_id", boardId)
+      .eq("boards.client_id", apiKeyData.client_id)
+      .single()
 
-    if (!card || card.boards?.client_id !== apiKeyData.client_id) {
+    if (!card) {
       return NextResponse.json({ error: "Card não encontrado" }, { status: 404 })
     }
 
