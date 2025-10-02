@@ -4,33 +4,38 @@ import { createClient } from "@/lib/supabase/server"
 import { revalidatePath } from "next/cache"
 
 export async function getContacts() {
-  const supabase = await createClient()
+  try {
+    const supabase = await createClient()
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-  if (!user) return []
+    const {
+      data: { user },
+    } = await supabase.auth.getUser()
+    if (!user) return []
 
-  const { data: profile } = await supabase.from("profiles").select("client_id, role").eq("id", user.id).single()
+    const { data: profile } = await supabase.from("profiles").select("client_id, role").eq("id", user.id).single()
 
-  if (!profile || !profile.client_id) return []
+    if (!profile || !profile.client_id) return []
 
-  const { data: contacts, error } = await supabase
-    .from("contacts")
-    .select(`
-      *,
-      contact_tags(tag_id, tags(*)),
-      contact_custom_values(*, custom_fields(*))
-    `)
-    .eq("client_id", profile.client_id)
-    .order("created_at", { ascending: false })
+    const { data: contacts, error } = await supabase
+      .from("contacts")
+      .select(`
+        *,
+        contact_tags(tag_id, tags(*)),
+        contact_custom_values(*, custom_fields(*))
+      `)
+      .eq("client_id", profile.client_id)
+      .order("created_at", { ascending: false })
 
-  if (error) {
-    console.error("Error fetching contacts:", error)
+    if (error) {
+      console.error("Error fetching contacts:", error)
+      return []
+    }
+
+    return contacts || []
+  } catch (error) {
+    console.error("Error in getContacts:", error)
     return []
   }
-
-  return contacts || []
 }
 
 export async function getContact(contactId: string) {
@@ -168,29 +173,34 @@ export async function deleteContact(contactId: string) {
 }
 
 export async function getCustomFields() {
-  const supabase = await createClient()
+  try {
+    const supabase = await createClient()
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-  if (!user) return []
+    const {
+      data: { user },
+    } = await supabase.auth.getUser()
+    if (!user) return []
 
-  const { data: profile } = await supabase.from("profiles").select("client_id").eq("id", user.id).single()
+    const { data: profile } = await supabase.from("profiles").select("client_id").eq("id", user.id).single()
 
-  if (!profile || !profile.client_id) return []
+    if (!profile || !profile.client_id) return []
 
-  const { data: fields, error } = await supabase
-    .from("custom_fields")
-    .select("*")
-    .eq("client_id", profile.client_id)
-    .order("name", { ascending: true })
+    const { data: fields, error } = await supabase
+      .from("custom_fields")
+      .select("*")
+      .eq("client_id", profile.client_id)
+      .order("name", { ascending: true })
 
-  if (error) {
-    console.error("Error fetching custom fields:", error)
+    if (error) {
+      console.error("Error fetching custom fields:", error)
+      return []
+    }
+
+    return fields || []
+  } catch (error) {
+    console.error("Error in getCustomFields:", error)
     return []
   }
-
-  return fields || []
 }
 
 export async function createCustomField(name: string, fieldType: string) {
