@@ -61,9 +61,12 @@ export interface Card {
   position: number
   phone: string | null
   email: string | null
+  contact_id: string | null
   created_by: string
   created_at: string
   updated_at: string
+  tags?: Tag[]
+  contact?: Contact
 }
 
 export interface DashboardStats {
@@ -75,7 +78,8 @@ export interface DashboardStats {
   lostLeads: number
   conversionRate: number
   leadsOverTime: Array<{ date: string; count: number }>
-  leadsByTags: Array<{ tag: string; count: number }>
+  leadsByTags: Array<{ tag: string; count: number; color: string }>
+  customFieldStats?: Array<{ fieldName: string; values: Array<{ value: string; count: number }> }>
 }
 
 export interface Tag {

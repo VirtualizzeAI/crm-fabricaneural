@@ -2,7 +2,6 @@ import { redirect } from "next/navigation"
 import { createClient } from "@/lib/supabase/server"
 import { Sidebar } from "@/components/layout/sidebar"
 import { KanbanBoard } from "@/components/boards/kanban-board"
-import { getStagesWithCards } from "@/lib/actions/stages"
 import { ArrowLeft } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
@@ -24,13 +23,42 @@ export default async function BoardDetailPage({ params }: { params: Promise<{ id
     redirect("/auth/login")
   }
 
-  const { data: board } = await supabase.from("boards").select("*").eq("id", id).single()
+  const { data: board } = await supabase
+    .from("boards")
+    .select(
+      `
+      *,
+      stages(
+        *,
+        cards(
+          *,
+          card_tags(
+            tags(*)
+          ),
+          contacts(*)
+        )
+      )
+    `,
+    )
+    .eq("id", id)
+    .single()
 
   if (!board) {
     redirect("/boards")
   }
 
-  const stages = await getStagesWithCards(id)
+  const stages = board.stages
+    .map((stage: any) => ({
+      ...stage,
+      cards: stage.cards
+        .map((card: any) => ({
+          ...card,
+          tags: card.card_tags?.map((ct: any) => ct.tags).filter(Boolean) || [],
+          contact: card.contacts || null,
+        }))
+        .sort((a: any, b: any) => a.position - b.position),
+    }))
+    .sort((a: any, b: any) => a.position - b.position)
 
   return (
     <div className="flex h-screen bg-slate-50">

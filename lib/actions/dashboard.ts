@@ -6,34 +6,32 @@ import type { DashboardStats } from "@/lib/types"
 export async function getDashboardStats(days = 30): Promise<DashboardStats | null> {
   const supabase = await createClient()
 
-  // Get current user
   const {
     data: { user },
   } = await supabase.auth.getUser()
   if (!user) return null
 
-  // Get user profile to check client_id
   const { data: profile } = await supabase.from("profiles").select("client_id, role").eq("id", user.id).single()
 
   if (!profile) return null
 
-  // Calculate date range
   const endDate = new Date()
   const startDate = new Date()
   startDate.setDate(startDate.getDate() - days)
 
-  // Build query based on user role
-  let cardsQuery = supabase.from("cards").select("*")
+  let cardsQuery = supabase.from("cards").select(`
+    *,
+    card_tags(
+      tags(*)
+    )
+  `)
 
   if (profile.role !== "super_admin" && profile.client_id) {
-    // Regular users see only their client's cards
     const { data: boards } = await supabase.from("boards").select("id").eq("client_id", profile.client_id)
-
     const boardIds = boards?.map((b) => b.id) || []
     cardsQuery = cardsQuery.in("board_id", boardIds)
   }
 
-  // Get all cards for the period
   const { data: cards } = await cardsQuery
     .gte("created_at", startDate.toISOString())
     .lte("created_at", endDate.toISOString())
@@ -48,17 +46,25 @@ export async function getDashboardStats(days = 30): Promise<DashboardStats | nul
       lostLeads: 0,
       conversionRate: 0,
       leadsOverTime: [],
-      leadsByStatus: [],
+      leadsByTags: [],
+      customFieldStats: [],
     }
   }
 
-  // Calculate stats
   const totalLeads = cards.length
-  const newLeads = cards.filter((c) => c.status === "new").length
-  const contactedLeads = cards.filter((c) => c.status === "contacted").length
-  const qualifiedLeads = cards.filter((c) => c.status === "qualified").length
-  const convertedLeads = cards.filter((c) => c.status === "converted").length
-  const lostLeads = cards.filter((c) => c.status === "lost").length
+
+  // Count leads by tag name (case-insensitive)
+  const getLeadCountByTag = (tagName: string) => {
+    return cards.filter((c: any) =>
+      c.card_tags?.some((ct: any) => ct.tags?.name?.toLowerCase() === tagName.toLowerCase()),
+    ).length
+  }
+
+  const newLeads = getLeadCountByTag("novo")
+  const contactedLeads = getLeadCountByTag("contatado")
+  const qualifiedLeads = getLeadCountByTag("qualificado")
+  const convertedLeads = getLeadCountByTag("convertido")
+  const lostLeads = getLeadCountByTag("perdido")
   const conversionRate = totalLeads > 0 ? (convertedLeads / totalLeads) * 100 : 0
 
   // Group leads by date
@@ -72,14 +78,45 @@ export async function getDashboardStats(days = 30): Promise<DashboardStats | nul
     .map(([date, count]) => ({ date, count }))
     .sort((a, b) => a.date.localeCompare(b.date))
 
-  // Group leads by status
-  const leadsByStatus = [
-    { status: "New", count: newLeads },
-    { status: "Contacted", count: contactedLeads },
-    { status: "Qualified", count: qualifiedLeads },
-    { status: "Converted", count: convertedLeads },
-    { status: "Lost", count: lostLeads },
-  ]
+  const tagCounts: { [key: string]: { count: number; color: string } } = {}
+  cards.forEach((card: any) => {
+    card.card_tags?.forEach((ct: any) => {
+      if (ct.tags) {
+        const tagName = ct.tags.name
+        if (!tagCounts[tagName]) {
+          tagCounts[tagName] = { count: 0, color: ct.tags.color }
+        }
+        tagCounts[tagName].count++
+      }
+    })
+  })
+
+  const leadsByTags = Object.entries(tagCounts).map(([tag, data]) => ({
+    tag,
+    count: data.count,
+    color: data.color,
+  }))
+
+  const { data: customFieldStats } = await supabase.from("contact_custom_values").select(`
+      value,
+      custom_fields(name)
+    `)
+
+  const customFieldStatsMap: { [key: string]: { [value: string]: number } } = {}
+  customFieldStats?.forEach((stat: any) => {
+    const fieldName = stat.custom_fields?.name
+    if (fieldName && stat.value) {
+      if (!customFieldStatsMap[fieldName]) {
+        customFieldStatsMap[fieldName] = {}
+      }
+      customFieldStatsMap[fieldName][stat.value] = (customFieldStatsMap[fieldName][stat.value] || 0) + 1
+    }
+  })
+
+  const customFieldStatsArray = Object.entries(customFieldStatsMap).map(([fieldName, values]) => ({
+    fieldName,
+    values: Object.entries(values).map(([value, count]) => ({ value, count })),
+  }))
 
   return {
     totalLeads,
@@ -90,7 +127,8 @@ export async function getDashboardStats(days = 30): Promise<DashboardStats | nul
     lostLeads,
     conversionRate,
     leadsOverTime: leadsOverTimeArray,
-    leadsByStatus,
+    leadsByTags,
+    customFieldStats: customFieldStatsArray,
   }
 }
 
