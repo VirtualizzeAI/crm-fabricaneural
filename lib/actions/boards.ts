@@ -101,7 +101,7 @@ export async function createBoard(name: string, description: string) {
   ]
 
   const { error: stagesError } = await supabase.from("stages").insert(
-    defaultStages.map((stage) => ({
+    defaultStages?.map((stage) => ({
       ...stage,
       board_id: board.id,
     })),
