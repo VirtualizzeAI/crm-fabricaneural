@@ -111,7 +111,7 @@ export function KanbanCard({ card }: KanbanCardProps) {
           )}
           <div className="flex items-center justify-between pt-2 flex-wrap gap-2">
             <div className="flex flex-wrap gap-1">
-              {card.tags?.map((tag) => (
+              {card?.tags?.map((tag) => (
                 <Badge
                   key={tag.id}
                   variant="outline"

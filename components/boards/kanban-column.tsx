@@ -85,7 +85,7 @@ export function KanbanColumn({ stage, boardId }: KanbanColumnProps) {
           </div>
 
           <div className="space-y-3 min-h-[300px] md:min-h-[400px]">
-            {stage.cards.map((card) => (
+            {stage?.cards?.map((card) => (
               <KanbanCard key={card.id} card={card} />
             ))}
           </div>

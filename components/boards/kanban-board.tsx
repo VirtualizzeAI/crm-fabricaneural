@@ -52,7 +52,7 @@ export function KanbanBoard({ boardId, stages }: KanbanBoardProps) {
 
   const handleDragStart = (event: DragStartEvent) => {
     const { active } = event
-    const card = stages.flatMap((stage) => stage.cards).find((card) => card.id === active.id)
+    const card = stages?.flatMap((stage) => stage.cards).find((card) => card.id === active.id)
     setActiveCard(card)
   }
 
@@ -101,7 +101,7 @@ export function KanbanBoard({ boardId, stages }: KanbanBoardProps) {
     <>
       <DndContext sensors={sensors} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
         <div className="flex gap-4 overflow-x-auto pb-4">
-          {stages.map((stage) => (
+          {stages?.map((stage) => (
             <KanbanColumn key={stage.id} stage={stage} boardId={boardId} />
           ))}
 

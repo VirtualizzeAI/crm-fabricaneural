@@ -76,7 +76,7 @@ export function EditStageDialog({ stage, open, onOpenChange }: EditStageDialogPr
             <div className="grid gap-2">
               <Label>Color</Label>
               <div className="grid grid-cols-4 gap-2">
-                {colorOptions.map((option) => (
+                {colorOptions?.map((option) => (
                   <button
                     key={option.value}
                     type="button"

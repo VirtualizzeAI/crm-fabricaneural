@@ -43,7 +43,7 @@ export function EditCardDialog({ card, open, onOpenChange }: EditCardDialogProps
   const [description, setDescription] = useState(card.description || "")
   const [phone, setPhone] = useState(card.phone || "")
   const [email, setEmail] = useState(card.email || "")
-  const [selectedTags, setSelectedTags] = useState<string[]>(card.tags?.map((t) => t.id) || [])
+  const [selectedTags, setSelectedTags] = useState<string[]>(card?.tags?.map((t) => t.id) || [])
   const [selectedContactId, setSelectedContactId] = useState<string>(card.contact_id || "")
   const [isLoading, setIsLoading] = useState(false)
   const [tags, setTags] = useState<any[]>([])
@@ -59,7 +59,7 @@ export function EditCardDialog({ card, open, onOpenChange }: EditCardDialogProps
       setDescription(card.description || "")
       setPhone(card.phone || "")
       setEmail(card.email || "")
-      setSelectedTags(card.tags?.map((t) => t.id) || [])
+      setSelectedTags(card?.tags?.map((t) => t.id) || [])
       setSelectedContactId(card.contact_id || "")
     }
   }, [open, card])
@@ -81,7 +81,7 @@ export function EditCardDialog({ card, open, onOpenChange }: EditCardDialogProps
       setPhone(contact.phone)
       setEmail(contact.email || "")
       if (contact.tags) {
-        setSelectedTags(contact.tags.map((t: any) => t.id))
+        setSelectedTags(contact?.tags?.map((t: any) => t.id))
       }
     }
   }
@@ -132,7 +132,7 @@ export function EditCardDialog({ card, open, onOpenChange }: EditCardDialogProps
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="none">Nenhum</SelectItem>
-                    {contacts.map((contact) => (
+                    {contacts?.map((contact) => (
                       <SelectItem key={contact.id} value={contact.id}>
                         {contact.name} - {contact.phone}
                       </SelectItem>
@@ -180,7 +180,7 @@ export function EditCardDialog({ card, open, onOpenChange }: EditCardDialogProps
                   </Button>
                 </div>
                 <div className="flex flex-wrap gap-2">
-                  {tags.map((tag) => (
+                  {tags?.map((tag) => (
                     <Badge
                       key={tag.id}
                       variant={selectedTags.includes(tag.id) ? "default" : "outline"}

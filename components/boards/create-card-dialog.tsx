@@ -64,7 +64,7 @@ export function CreateCardDialog({ boardId, stageId, open, onOpenChange }: Creat
       setPhone(contact.phone)
       setEmail(contact.email || "")
       if (contact.tags) {
-        setSelectedTags(contact.tags.map((t: any) => t.id))
+        setSelectedTags(contact?.tags?.map((t: any) => t.id))
       }
     }
   }
@@ -113,7 +113,7 @@ export function CreateCardDialog({ boardId, stageId, open, onOpenChange }: Creat
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="none">Nenhum</SelectItem>
-                    {contacts.map((contact) => (
+                    {contacts?.map((contact) => (
                       <SelectItem key={contact.id} value={contact.id}>
                         {contact.name} - {contact.phone}
                       </SelectItem>
@@ -180,7 +180,7 @@ export function CreateCardDialog({ boardId, stageId, open, onOpenChange }: Creat
                   </Button>
                 </div>
                 <div className="flex flex-wrap gap-2">
-                  {tags.map((tag) => (
+                  {tags?.map((tag) => (
                     <Badge
                       key={tag.id}
                       variant={selectedTags.includes(tag.id) ? "default" : "outline"}

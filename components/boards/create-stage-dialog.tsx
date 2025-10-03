@@ -80,7 +80,7 @@ export function CreateStageDialog({ boardId, open, onOpenChange }: CreateStageDi
             <div className="grid gap-2">
               <Label>Cor</Label>
               <div className="grid grid-cols-4 gap-2">
-                {colorOptions.map((option) => (
+                {colorOptions?.map((option) => (
                   <button
                     key={option.value}
                     type="button"
