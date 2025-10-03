@@ -41,7 +41,7 @@ export default async function BoardDetailPage({ params }: { params: Promise<{ id
     redirect("/boards")
   }
 
-  const stages = board.stages
+  const stages = board?.stages?
     .map((stage: any) => ({
       ...stage,
       cards: stage.cards.sort((a: any, b: any) => a.position - b.position),

@@ -85,7 +85,7 @@ export function BoardList({ boards }: BoardListProps) {
           </Link>
         ))}
 
-        {boards.length === 0 && (
+        {boards?.length === 0 && (
           <Card className="border-slate-200 border-dashed">
             <CardContent className="flex flex-col items-center justify-center py-12">
               <p className="text-slate-600 mb-4">Nenhum quadro ainda</p>

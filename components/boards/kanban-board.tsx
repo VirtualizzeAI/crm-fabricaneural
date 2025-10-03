@@ -82,11 +82,11 @@ export function KanbanBoard({ boardId, stages }: KanbanBoardProps) {
     let newPosition = 0
     if (overId === targetStage.id) {
       // Dropped on stage header, put at the end
-      newPosition = targetStage.cards.length
+      newPosition = targetStage?.cards?.length
     } else {
       // Dropped on a card, insert before it
       const overCardIndex = targetStage.cards.findIndex((card) => card.id === overId)
-      newPosition = overCardIndex >= 0 ? overCardIndex : targetStage.cards.length
+      newPosition = overCardIndex >= 0 ? overCardIndex : targetStage?.cards?.length
     }
 
     try {

@@ -30,7 +30,7 @@ export function ContactProfileClient({ contact, customFields, tags, userRole, us
   const [name, setName] = useState(contact.name)
   const [phone, setPhone] = useState(contact.phone)
   const [email, setEmail] = useState(contact.email || "")
-  const [selectedTags, setSelectedTags] = useState<string[]>(contact.contact_tags?.map((ct: any) => ct.tag_id) || [])
+  const [selectedTags, setSelectedTags] = useState<string[]>(contact?.contact_tags?.map((ct: any) => ct.tag_id) || [])
   const [customValues, setCustomValues] = useState<{ [key: string]: string }>(() => {
     const values: { [key: string]: string } = {}
     contact.contact_custom_values?.forEach((cv: any) => {
@@ -62,7 +62,7 @@ export function ContactProfileClient({ contact, customFields, tags, userRole, us
     setIsLoading(true)
 
     try {
-      const customValuesArray = Object.entries(customValues).map(([fieldId, value]) => ({
+      const customValuesArray = Object.entries(customValues)?.map(([fieldId, value]) => ({
         fieldId,
         value,
       }))
@@ -82,7 +82,7 @@ export function ContactProfileClient({ contact, customFields, tags, userRole, us
     setName(contact.name)
     setPhone(contact.phone)
     setEmail(contact.email || "")
-    setSelectedTags(contact.contact_tags?.map((ct: any) => ct.tag_id) || [])
+    setSelectedTags(contact?.contact_tags?.map((ct: any) => ct.tag_id) || [])
     const values: { [key: string]: string } = {}
     contact.contact_custom_values?.forEach((cv: any) => {
       values[cv.custom_field_id] = cv.value || ""
@@ -169,7 +169,7 @@ export function ContactProfileClient({ contact, customFields, tags, userRole, us
                   <Label>Tags</Label>
                   {isEditing ? (
                     <div className="flex flex-wrap gap-2">
-                      {tags.map((tag) => (
+                      {tags?.map((tag) => (
                         <div key={tag.id} className="flex items-center space-x-2">
                           <Checkbox
                             id={`tag-${tag.id}`}
@@ -198,7 +198,7 @@ export function ContactProfileClient({ contact, customFields, tags, userRole, us
                   ) : (
                     <div className="flex flex-wrap gap-2">
                       {contact.contact_tags?.length > 0 ? (
-                        contact.contact_tags.map((ct: any) => (
+                        contact.contact_tags?.map((ct: any) => (
                           <Badge
                             key={ct.tag_id}
                             variant="outline"
@@ -223,7 +223,7 @@ export function ContactProfileClient({ contact, customFields, tags, userRole, us
                 <div className="border-t pt-6">
                   <h3 className="text-lg font-semibold mb-4">Campos Personalizados</h3>
                   <div className="grid gap-4">
-                    {customFields.map((field) => {
+                    {customFields?.map((field) => {
                       const existingValue = contact.contact_custom_values?.find(
                         (cv: any) => cv.custom_field_id === field.id,
                       )

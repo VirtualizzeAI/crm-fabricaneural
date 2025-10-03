@@ -62,7 +62,7 @@ export function KanbanColumn({ stage, boardId }: KanbanColumnProps) {
             <div className="flex items-center gap-2">
               {stage.color && <div className="h-3 w-3 rounded-full" style={{ backgroundColor: stage.color }} />}
               <h3 className="font-semibold text-card-foreground text-sm md:text-base">{stage.name}</h3>
-              <Badge variant="secondary">{stage.cards.length}</Badge>
+              <Badge variant="secondary">{stage?.cards?.length}</Badge>
             </div>
             <div className="flex gap-1">
               <Button
