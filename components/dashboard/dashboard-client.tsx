@@ -70,7 +70,7 @@ export function DashboardClient({ initialStats, initialLeads, userRole, userName
 
             {stats.customFieldStats && stats.customFieldStats.length > 0 && (
               <div className="grid gap-6 lg:grid-cols-2">
-                {stats.customFieldStats.map((fieldStat) => (
+                {stats?.customFieldStats?.map((fieldStat) => (
                   <Card key={fieldStat.fieldName} className="border-slate-200">
                     <CardHeader>
                       <CardTitle className="text-slate-900">{fieldStat.fieldName}</CardTitle>
@@ -78,7 +78,7 @@ export function DashboardClient({ initialStats, initialLeads, userRole, userName
                     </CardHeader>
                     <CardContent>
                       <div className="space-y-2">
-                        {fieldStat.values.map((valueData) => (
+                        {fieldStat?.values?.map((valueData) => (
                           <div key={valueData.value} className="flex items-center justify-between">
                             <span className="text-sm text-slate-700">{valueData.value}</span>
                             <span className="text-sm font-semibold text-slate-900">{valueData.count}</span>

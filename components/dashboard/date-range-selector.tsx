@@ -39,7 +39,7 @@ export function DateRangeSelector({ onRangeChange, selectedDays }: DateRangeSele
 
   return (
     <div className="flex flex-wrap items-center gap-2">
-      {presets.map((preset) => (
+      {presets?.map((preset) => (
         <Button
           key={preset.days}
           variant={selectedDays === preset.days && !isCustom ? "default" : "outline"}

@@ -8,7 +8,7 @@ interface StatusChartProps {
 }
 
 export function StatusChart({ data }: StatusChartProps) {
-  const chartData = data.map((item) => ({
+  const chartData = data?.map((item) => ({
     name: item.tag,
     count: item.count,
     fill: item.color,

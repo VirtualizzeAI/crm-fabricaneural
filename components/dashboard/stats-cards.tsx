@@ -61,7 +61,7 @@ export function StatsCards({ stats }: StatsCardsProps) {
 
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
-      {cards.map((card) => {
+      {cards?.map((card) => {
         const Icon = card.icon
         return (
           <Card key={card.title} className="border-slate-200">

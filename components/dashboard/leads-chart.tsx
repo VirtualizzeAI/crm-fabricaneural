@@ -8,7 +8,7 @@ interface LeadsChartProps {
 }
 
 export function LeadsChart({ data }: LeadsChartProps) {
-  const formattedData = data.map((item) => ({
+  const formattedData = data?.map((item) => ({
     date: new Date(item.date).toLocaleDateString("en-US", {
       month: "short",
       day: "numeric",

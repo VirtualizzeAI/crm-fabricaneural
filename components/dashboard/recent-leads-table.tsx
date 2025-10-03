@@ -48,7 +48,7 @@ export function RecentLeadsTable({ leads }: RecentLeadsTableProps) {
                 </TableCell>
               </TableRow>
             ) : (
-              leads.map((lead) => (
+              leads?.map((lead) => (
                 <TableRow key={lead.id} className="border-slate-200">
                   <TableCell className="font-medium text-slate-900">{lead.title}</TableCell>
                   <TableCell className="text-slate-600">
