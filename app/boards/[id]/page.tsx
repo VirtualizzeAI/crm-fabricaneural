@@ -30,13 +30,7 @@ export default async function BoardDetailPage({ params }: { params: Promise<{ id
       *,
       stages(
         *,
-        cards(
-          *,
-          card_tags(
-            tags(*)
-          ),
-          contacts(*)
-        )
+        cards(*)
       )
     `,
     )
@@ -50,34 +44,28 @@ export default async function BoardDetailPage({ params }: { params: Promise<{ id
   const stages = board.stages
     .map((stage: any) => ({
       ...stage,
-      cards: stage.cards
-        .map((card: any) => ({
-          ...card,
-          tags: card.card_tags?.map((ct: any) => ct.tags).filter(Boolean) || [],
-          contact: card.contacts || null,
-        }))
-        .sort((a: any, b: any) => a.position - b.position),
+      cards: stage.cards.sort((a: any, b: any) => a.position - b.position),
     }))
     .sort((a: any, b: any) => a.position - b.position)
 
   return (
-    <div className="flex h-screen bg-slate-50">
+    <div className="flex h-screen bg-background">
       <Sidebar userRole={profile.role} />
       <div className="flex-1 overflow-auto">
-        <div className="border-b border-slate-200 bg-white px-8 py-6">
+        <div className="border-b bg-card px-4 py-4 md:px-8 md:py-6">
           <div className="flex items-center gap-4">
-            <Button variant="ghost" size="icon" asChild className="text-slate-600 hover:text-slate-900">
+            <Button variant="ghost" size="icon" asChild>
               <Link href="/boards">
                 <ArrowLeft className="h-5 w-5" />
               </Link>
             </Button>
             <div>
-              <h1 className="text-3xl font-bold text-slate-900">{board.name}</h1>
-              {board.description && <p className="mt-1 text-sm text-slate-600">{board.description}</p>}
+              <h1 className="text-2xl font-bold md:text-3xl">{board.name}</h1>
+              {board.description && <p className="mt-1 text-sm text-muted-foreground">{board.description}</p>}
             </div>
           </div>
         </div>
-        <div className="p-8">
+        <div className="p-4 md:p-8">
           <KanbanBoard boardId={id} stages={stages} />
         </div>
       </div>
