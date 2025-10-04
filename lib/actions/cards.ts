@@ -28,7 +28,7 @@ export async function createCard(
     .order("position", { ascending: false })
     .limit(1)
 
-  const nextPosition = cards && cards.length > 0 ? cards[0].position + 1 : 0
+  const nextPosition = cards && cards?.length > 0 ? cards[0].position + 1 : 0
 
   const { data: card, error } = await supabase
     .from("cards")
@@ -48,8 +48,8 @@ export async function createCard(
 
   if (error) throw error
 
-  if (tagIds.length > 0) {
-    const cardTags = tagIds.map((tagId) => ({
+  if (tagIds?.length > 0) {
+    const cardTags = tagIds?.map((tagId) => ({
       card_id: card.id,
       tag_id: tagId,
     }))
@@ -80,8 +80,8 @@ export async function updateCard(
 
   await supabase.from("card_tags").delete().eq("card_id", cardId)
 
-  if (tagIds.length > 0) {
-    const cardTags = tagIds.map((tagId) => ({
+  if (tagIds?.length > 0) {
+    const cardTags = tagIds?.map((tagId) => ({
       card_id: cardId,
       tag_id: tagId,
     }))

@@ -15,7 +15,7 @@ export async function getStagesWithCards(boardId: string) {
   if (!stages) return []
 
   // Sort cards by position within each stage
-  return stages.map((stage) => ({
+  return stages?.map((stage) => ({
     ...stage,
     cards: (stage.cards || []).sort((a: any, b: any) => a.position - b.position),
   }))
@@ -32,7 +32,7 @@ export async function createStage(boardId: string, name: string, color: string) 
     .order("position", { ascending: false })
     .limit(1)
 
-  const nextPosition = stages && stages.length > 0 ? stages[0].position + 1 : 0
+  const nextPosition = stages && stages?.length > 0 ? stages[0].position + 1 : 0
 
   const { data: stage, error } = await supabase
     .from("stages")

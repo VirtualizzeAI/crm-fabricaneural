@@ -94,8 +94,8 @@ export async function createContact(
   if (error) throw error
 
   // Add tags
-  if (tagIds.length > 0) {
-    const tagInserts = tagIds.map((tagId) => ({
+  if (tagIds?.length > 0) {
+    const tagInserts = tagIds?.map((tagId) => ({
       contact_id: contact.id,
       tag_id: tagId,
     }))
@@ -103,15 +103,15 @@ export async function createContact(
   }
 
   // Add custom field values
-  if (customValues.length > 0) {
+  if (customValues?.length > 0) {
     const valueInserts = customValues
-      .filter((cv) => cv.value)
+      .filter((cv) => cv.value)?
       .map((cv) => ({
         contact_id: contact.id,
         custom_field_id: cv.fieldId,
         value: cv.value,
       }))
-    if (valueInserts.length > 0) {
+    if (valueInserts?.length > 0) {
       await supabase.from("contact_custom_values").insert(valueInserts)
     }
   }
@@ -136,8 +136,8 @@ export async function updateContact(
 
   // Update tags
   await supabase.from("contact_tags").delete().eq("contact_id", contactId)
-  if (tagIds.length > 0) {
-    const tagInserts = tagIds.map((tagId) => ({
+  if (tagIds?.length > 0) {
+    const tagInserts = tagIds?.map((tagId) => ({
       contact_id: contactId,
       tag_id: tagId,
     }))
@@ -146,15 +146,15 @@ export async function updateContact(
 
   // Update custom values
   await supabase.from("contact_custom_values").delete().eq("contact_id", contactId)
-  if (customValues.length > 0) {
+  if (customValues?.length > 0) {
     const valueInserts = customValues
-      .filter((cv) => cv.value)
+      .filter((cv) => cv.value)?
       .map((cv) => ({
         contact_id: contactId,
         custom_field_id: cv.fieldId,
         value: cv.value,
       }))
-    if (valueInserts.length > 0) {
+    if (valueInserts?.length > 0) {
       await supabase.from("contact_custom_values").insert(valueInserts)
     }
   }
