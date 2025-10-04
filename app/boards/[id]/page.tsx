@@ -17,7 +17,11 @@ export default async function BoardDetailPage({ params }: { params: Promise<{ id
     redirect("/auth/login")
   }
 
-  const { data: profile } = await supabase.from("profiles").select("*").eq("id", user.id).single()
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("*")
+    .eq("id", user.id)
+    .single()
 
   if (!profile) {
     redirect("/auth/login")
@@ -25,15 +29,7 @@ export default async function BoardDetailPage({ params }: { params: Promise<{ id
 
   const { data: board } = await supabase
     .from("boards")
-    .select(
-      `
-      *,
-      stages(
-        *,
-        cards(*)
-      )
-    `,
-    )
+    .select(`*, stages(*, cards(*))`)
     .eq("id", id)
     .single()
 
@@ -41,10 +37,11 @@ export default async function BoardDetailPage({ params }: { params: Promise<{ id
     redirect("/boards")
   }
 
-  const stages = board?.stages?
+  // 🔒 Tratamento seguro: garante que sempre existam arrays
+  const stages = (board?.stages ?? [])
     .map((stage: any) => ({
       ...stage,
-      cards: stage.cards.sort((a: any, b: any) => a.position - b.position),
+      cards: (stage.cards ?? []).sort((a: any, b: any) => a.position - b.position),
     }))
     .sort((a: any, b: any) => a.position - b.position)
 
@@ -61,7 +58,11 @@ export default async function BoardDetailPage({ params }: { params: Promise<{ id
             </Button>
             <div>
               <h1 className="text-2xl font-bold md:text-3xl">{board.name}</h1>
-              {board.description && <p className="mt-1 text-sm text-muted-foreground">{board.description}</p>}
+              {board.description && (
+                <p className="mt-1 text-sm text-muted-foreground">
+                  {board.description}
+                </p>
+              )}
             </div>
           </div>
         </div>
