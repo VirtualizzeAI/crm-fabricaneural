@@ -41,7 +41,7 @@ export async function GET(request: NextRequest, { params }: { params: { boardId:
 
     return NextResponse.json({
       board,
-      stages: stages.map((stage) => ({
+      stages: stages?.map((stage) => ({
         ...stage,
         cards: (stage.cards as any[]).sort((a, b) => a.position - b.position),
       })),

@@ -65,7 +65,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
 
     // Get cards for each stage
     const stagesWithCards = await Promise.all(
-      (stages || []).map(async (stage) => {
+      (stages || [])?.map(async (stage) => {
         const { data: cards } = await supabase
           .from("cards")
           .select("id, title, description, email, phone, status, position, created_at")

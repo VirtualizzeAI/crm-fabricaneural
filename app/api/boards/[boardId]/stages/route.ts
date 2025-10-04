@@ -25,7 +25,7 @@ export async function POST(request: NextRequest, { params }: { params: { boardId
       .order("position", { ascending: false })
       .limit(1)
 
-    const nextPosition = stages && stages.length > 0 ? stages[0].position + 1 : 0
+    const nextPosition = stages && stages?.length > 0 ? stages[0].position + 1 : 0
 
     const { data: stage, error } = await supabase
       .from("stages")

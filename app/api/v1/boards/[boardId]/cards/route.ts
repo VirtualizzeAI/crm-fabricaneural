@@ -116,7 +116,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
     // Get next position
     const { data: cards } = await supabase.from("cards").select("position").eq("stage_id", stageId)
 
-    const nextPosition = cards && cards.length > 0 ? Math.max(...cards.map((c) => c.position)) + 1 : 0
+    const nextPosition = cards && cards?.length > 0 ? Math.max(...cards?.map((c) => c.position)) + 1 : 0
 
     // Create card
     const { data: newCard, error } = await supabase

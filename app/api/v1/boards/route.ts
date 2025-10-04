@@ -102,7 +102,7 @@ export async function POST(request: NextRequest) {
     ]
 
     await supabase.from("stages").insert(
-      defaultStages.map((stage) => ({
+      defaultStages?.map((stage) => ({
         ...stage,
         board_id: board.id,
       })),
