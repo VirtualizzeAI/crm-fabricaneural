@@ -15,7 +15,7 @@ import type { Tag } from "@/lib/types"
 interface ManageTagsDialogProps {
   open: boolean
   onOpenChange: (open: boolean) => void
-  tags: Tag[]
+  tags: Tag[];
 }
 
 const defaultColors = [
@@ -113,7 +113,7 @@ export function ManageTagsDialog({ open, onOpenChange, tags }: ManageTagsDialogP
             <p className="text-sm text-muted-foreground">Nenhuma tag criada</p>
           ) : (
             <div className="space-y-2">
-              {tags.map((tag) => (
+              {(tags ?? []).map((tag) => (
                 <div key={tag.id} className="flex items-center justify-between p-2 border rounded">
                   <div className="flex items-center gap-2">
                     <div className="h-4 w-4 rounded-full" style={{ backgroundColor: tag.color }} />
