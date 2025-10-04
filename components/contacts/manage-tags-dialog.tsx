@@ -109,7 +109,7 @@ export function ManageTagsDialog({ open, onOpenChange, tags }: ManageTagsDialogP
 
         <div className="border-t pt-4 mt-4">
           <h4 className="text-sm font-medium mb-3">Tags Existentes</h4>
-          {tags.length === 0 ? (
+          {tags?.length === 0 ? (
             <p className="text-sm text-muted-foreground">Nenhuma tag criada</p>
           ) : (
             <div className="space-y-2">
