@@ -66,7 +66,7 @@ export function DateRangeSelector({ onRangeChange, selectedDays }: DateRangeSele
             }
           >
             <CalendarIcon className="mr-2 h-4 w-4" />
-            {date.from ? (
+            {date?.from ? (
               date.to ? (
                 <>
                   {format(date.from, "dd MMM")} - {format(date.to, "dd MMM")}
