@@ -19,17 +19,6 @@ export default async function SuperAdminPage() {
 
   const { data: profile } = await supabase.from("profiles").select("*").eq("id", user.id).single()
 
-  if (!profile || profile.role !== "super_admin") {
-    redirect("/dashboard")
-  }
-
-  const stats = await getAdminStats()
-  const clients = await getAllClients()
-  const plans = await getAllPlans()
-
-  if (!stats) {
-    redirect("/dashboard")
-  }
 
   return (
     <div className="flex h-screen bg-slate-50">
