@@ -18,9 +18,9 @@ export function DateRangeSelector({ onRangeChange, selectedDays }: DateRangeSele
   const [isCustom, setIsCustom] = useState(false)
 
   const presets = [
-    { label: "Últinmos 7 dias", days: 7 },
-    { label: "Últinmos 15 dias", days: 15 },
-    { label: "Últinmos 30 dias", days: 30 },
+    { label: "Últimos 7 dias", days: 7 },
+    { label: "Últimos 15 dias", days: 15 },
+    { label: "Últimos 30 dias", days: 30 },
   ]
 
   const handlePresetClick = (days: number) => {
@@ -30,7 +30,7 @@ export function DateRangeSelector({ onRangeChange, selectedDays }: DateRangeSele
 
   const handleCustomRange = (range: DateRange | undefined) => {
     setDate(range)
-    if (range?.from && range?.to) {
+    if (range.from && range.to) {
       const days = Math.ceil((range.to.getTime() - range.from.getTime()) / (1000 * 60 * 60 * 24))
       setIsCustom(true)
       onRangeChange(days)
@@ -66,7 +66,7 @@ export function DateRangeSelector({ onRangeChange, selectedDays }: DateRangeSele
             }
           >
             <CalendarIcon className="mr-2 h-4 w-4" />
-            {date?.from ? (
+            {date.from ? (
               date.to ? (
                 <>
                   {format(date.from, "dd MMM")} - {format(date.to, "dd MMM")}
@@ -83,7 +83,7 @@ export function DateRangeSelector({ onRangeChange, selectedDays }: DateRangeSele
           <Calendar
             initialFocus
             mode="range"
-            defaultMonth={date?.from}
+            defaultMonth={date.from}
             selected={date}
             onSelect={handleCustomRange}
             numberOfMonths={2}
