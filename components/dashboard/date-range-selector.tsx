@@ -18,9 +18,9 @@ export function DateRangeSelector({ onRangeChange, selectedDays }: DateRangeSele
   const [isCustom, setIsCustom] = useState(false)
 
   const presets = [
-    { label: "Last 7 days", days: 7 },
-    { label: "Last 15 days", days: 15 },
-    { label: "Last 30 days", days: 30 },
+    { label: "Últinmos 7 dias", days: 7 },
+    { label: "Últinmos 15 dias", days: 15 },
+    { label: "Últinmos 30 dias", days: 30 },
   ]
 
   const handlePresetClick = (days: number) => {
@@ -69,13 +69,13 @@ export function DateRangeSelector({ onRangeChange, selectedDays }: DateRangeSele
             {date?.from ? (
               date.to ? (
                 <>
-                  {format(date.from, "MMM dd")} - {format(date.to, "MMM dd")}
+                  {format(date.from, "dd MMM")} - {format(date.to, "dd MMM")}
                 </>
               ) : (
-                format(date.from, "MMM dd, yyyy")
+                format(date.from, "dd MMM, yyyy")
               )
             ) : (
-              "Custom range"
+              "Personalizado"
             )}
           </Button>
         </PopoverTrigger>
